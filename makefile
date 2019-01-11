@@ -1,10 +1,17 @@
+# See https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+# for a full explanation of automatic variables in makefiles.
+
 COMPILER=gcc
 FLAGS=-Wall -O0
 
-all: fact 
+all: fact fact.s
 
-hello: hello.c
-	$(COMPILER) $(FLAGS) -o hello.out hello.c
+# Compile fact.c into a binary
+fact:	fact.c
+	$(COMPILER) $(FLAGS) -o $@.out $@.c
+
+fact.s:	fact.c
+	$(COMPILER) $(FLAGS) -o $@ -S $<
 
 # This guy is not included in all and will have to be executed manually with 
 # 'make hello.asm'. It generates assembly code.
@@ -19,4 +26,4 @@ hello.o: hello.s
 	$(COMPILER) $(FLAGS) -c hello.s -o hello.o
 
 clean: 
-rm -f *.o *.s *.out
+	rm -f *.o *.s *.out

@@ -1,6 +1,6 @@
-#include <stdlib.h>
+#include <stdio.h>
 
-void main( void ) {
+int main( void ) {
    /* Code to return the the result of the mathematical expression 10! (Fact-
     * orial 10). 
     */
@@ -13,7 +13,7 @@ void main( void ) {
       a--;    
    } while ( a > 1 );
 
-   printf( "10! is %d", result );
+   printf( "10! is %d\n", result );
 
    return 0;
 }
