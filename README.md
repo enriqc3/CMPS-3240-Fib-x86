@@ -57,11 +57,13 @@ Here is an example in x86:
 ```
 cmp %eax, %ebx
 jg ifblock # Jump if %ebx > %eax
-# Else block goes here
-ifblock: # Where jg will jump to if the condition is not met
+# If expression is false machine will continue onto this line
+# Else block goes here basically
+ifblock: 
+# Where jg will jump to if the condition is met
 ```
 
-`cmp` carries out the comparison, and there are a variety of jumping commands based on the result. Today's lab will use `jg`. If `%ebx > %eax` then the process will jump. Perhaps the most unusual thing about all of this is that the if block is jumped too. The else block are the instructions that immidiately follow the `jg` operation. Note that this code is incomplete because once the else block is complete, the processor will continue into the if block unless commands are inserted to prevent this. Recall that the if and else blocks are supposed to be exclusive (only one or the other should be executed). The `jmp` command can help us here:
+`cmp` carries out the comparison, and there are a variety of jumping commands based on the result. See this reference for the variety of commands at your disposal.<sup>3</sup> Today's lab will use `jg`. If `%ebx > %eax` then the process will jump. Perhaps the most unusual thing about all of this is that the if block is jumped too. The else block are the instructions that immidiately follow the `jg` operation. Note that this code is incomplete because once the else block is complete, the processor will continue into the if block unless commands are inserted to prevent this. Recall that the if and else blocks are supposed to be exclusive (only one or the other should be executed). The `jmp` command can help us here:
 
 ```
 cmp %eax, %ebx
@@ -143,3 +145,5 @@ Show your x86 solution for credit.
 
 # References
 <sup>1</sup>https://c9x.me/x86/html/file_module_x86_id_35.html
+<sup>2</sup>https://en.wikipedia.org/wiki/FLAGS_register
+<sup>3</sup>https://en.wikibooks.org/wiki/X86_Assembly/Control_Flow#Unconditional_Jumps
