@@ -47,10 +47,14 @@ while (expr) {
 }
 ```
 
-Today we will learn how to implement these in x86. Jumping consists of two steps:
+### Example: `if` and `else`
 
-1. Evaluate the expression `expr`. In x86, this is the `cmp` x86 command. Two arguments are compared to each other. 
-2. Based on the result of the expression, go to a specific line in the code. Recall that we can label specific lines in x86 assembly code with an identifier. 
+Today we will learn how to implement these in x86. In x86, jumping consists of the following logic:
+
+0. As a 0-th step, the compiler reorganizes `expr` so that the RHS is 0. Some examples: `a = b` is converted to `a - b = 0`, or `c < y` is converted to `c - y < 0`.
+1. Evaluate the expression `expr`, which is now a subtraction operation. This is x86's `cmp` command. 
+2. Use `j` to jump if the result is greater, less, less than, equal to, etc. This is x86's `j` command, and it has a suffix based on the operation. For example, `jg` is jump if `expr` is greater than 0. If true, go to a specific line in the code. Recall that we can label specific lines in x86 assembly code with an identifier, and this is how we implement jumps.
+3. If the evaluation was untrue, the code just falls through and executed the lines of code immidiately following the `j` command. 
 
 Here is an example in x86: 
 
@@ -75,6 +79,32 @@ ifblock:
 # Where jg will jump to if the condition is not met
 # ...
 endofblock:
+```
+
+### Example 2 - A pre-test `for` loop
+
+This code:
+
+```c
+for( int i = 0; i < n; i++ )
+    // Do something
+```
+
+Translates to the following:
+
+```x86
+# Assume that 'n' is located at -4(%rbp)
+# Assume that 'i' is located at -8(%rbp)
+movl $0, -4(%rbp)       # i=0
+test: 
+movl -4(%rbp), %eax     # cmp can only take one argument as a memory location
+cmp -8(%rbp), %eax      # <second> - <first>, needs to be i - n < 0
+jg apples               # If i - n > 0, them jump to apples
+# Do something
+addl $1, -4(%rbp)       # i += 1, or i++
+jmp test                # jmp is unconditional, go back to loop top
+apples:
+# Outside of loop body
 ```
 
 We will apply these concepts with today's lab.
