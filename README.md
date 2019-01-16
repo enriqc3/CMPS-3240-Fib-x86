@@ -175,5 +175,7 @@ Show your x86 solution for credit.
 
 # References
 <sup>1</sup>https://c9x.me/x86/html/file_module_x86_id_35.html
+
 <sup>2</sup>https://en.wikipedia.org/wiki/FLAGS_register
+
 <sup>3</sup>https://en.wikibooks.org/wiki/X86_Assembly/Control_Flow#Unconditional_Jumps
