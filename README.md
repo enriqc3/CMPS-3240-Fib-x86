@@ -1,4 +1,4 @@
-# CMPS-3240-Fibonacci-x86
+# CMPS-3240-Fib-x86
 Implementing control of flow with Fibonacci numbers
 
 ## Objectives
