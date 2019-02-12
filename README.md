@@ -128,7 +128,7 @@ $ fact.out
 
 then look at `fact.c` to see what the program is meant to do. It generates the result of the mathematical expression 10!. Just to be clear, 10! = 10 * 9 * 8 * ... * 2 * 1. Multiply the number n times n-1 repeatedly until n = 1. Technically, n = 2 is an OK termination point because anything * 1 is just 1.
 
-Now take a look at the `fact.s`. We're just going to look at a small part of it. From the previous lab you should be familiar with the idea that local variables are stored on the stack and do not actually have an identifier when translated into assembly language, that x86 has a right to left assignment, unlike MIPS most commands are two arguments only. x86 code to calculate 10! with a `do`-`while` loop looks like so. First, the literal 10 and a variable to store the result are placed on the stack:
+Now take a look at the `fact.s`. We're just going to look at a small part of it. From the previous lab you should be familiar with the idea that local variables are stored on the stack and do not actually have an identifier when translated into assembly language, that x86 has a left to right assignment, and unlike MIPS most commands are two arguments only. x86 code to calculate 10! with a `do`-`while` loop will be explained in the following. First, the literal 10 and a variable to store the result are placed on the stack:
 
 ```x86
     movl    $10, -4(%rbp)
@@ -150,7 +150,13 @@ The first command places literal 10 into `-4(%rbp)`. The second command places l
 Something to note is that, for arithmetic operations such as `movl`, the first argument can be a memory location, but the second argument must be a register. This means that something like:
 
 ```x86
-   movl -8(%rbp), -8(%rbp) 
+   movl -4(%rbp), -8(%rbp) 
+```
+
+and:
+
+```x86
+   imull -4(%rbp), -8(%rbp) 
 ```
 
 would be *invalid*. Thus, we have to juggle the intermediate result into a register temporarily. `-8(%rbp)` is placed into `%eax`, then the contents of `-4(%rbp)` are multiplied by whatever contents are in `%eax`. "But wait," you might ask, "where is the result stored into?" The arithmetic commands in x86, unlike MIPS, follow a sort of C-style `+=`, `-=`, `*=`, etc. style. So, the result of `-4(%rbp)` * `%eax` is stored back into `%eax`. Note that the next line `movl %eax, -8(%rbp)` puts the result back into the stack. `subl $1, -4(%rbp)` then decrements the value to be multiplied on the next run of the loop. All of this to realize the following C commands:
@@ -168,6 +174,7 @@ Your task for this lab is to modify the code in fact.s so that it displays the 1
 
 * It should do this iteratively
 * You must do this in x86 and not C. Consult the previous disassembly/assembly lab for what the makefile targets should look like to do this.
+* You do not need to create new targets, or even a new file. It is OK if you modify fact.s to do Fibonacci instead.
 
 # Check off
 
