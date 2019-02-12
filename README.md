@@ -67,7 +67,7 @@ ifblock:
 # Where jg will jump to if the condition is met
 ```
 
-`cmp` carries out the comparison, and there are a variety of jumping commands based on the result. See this reference for the variety of commands at your disposal.<sup>3</sup> Today's lab will use `jg`. If `%ebx > %eax` then the process will jump. Perhaps the most unusual thing about all of this is that the if block is jumped too. The else block are the instructions that immidiately follow the `jg` operation. Note that this code is incomplete because once the else block is complete, the processor will continue into the if block unless commands are inserted to prevent this. Recall that the if and else blocks are supposed to be exclusive (only one or the other should be executed). The `jmp` command can help us here:
+`cmp` carries out the comparison, and there are a variety of jumping commands based on the result. See this reference for the variety of commands at your disposal.<sup>3</sup> Today's lab will use `jg`. If `%ebx > %eax` then the process will jump. Perhaps the most unusual thing about all of this is that the if block is the target of the jump. The else block are the instructions that immidiately follow the `jg` operation. Note that this code is incomplete because once the else block is complete, the processor will continue into the if block unless commands are inserted to prevent this. Recall that the if and else blocks are supposed to be exclusive (only one or the other should be executed). The `jmp` command can help us here:
 
 ```
 cmp %eax, %ebx
@@ -93,8 +93,8 @@ for( int i = 0; i < n; i++ )
 Translates to the following:
 
 ```x86
-# Assume that 'n' is located at -4(%rbp)
-# Assume that 'i' is located at -8(%rbp)
+# Assume that 'i' is located at -4(%rbp)
+# Assume that 'n' is located at -8(%rbp)
 movl $0, -4(%rbp)       # i=0
 test: 
 movl -4(%rbp), %eax     # cmp can only take one argument as a memory location
